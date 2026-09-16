@@ -3,933 +3,815 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Numinous</title>
+  <title>Astria</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       font-family: 'Inter', sans-serif;
-      background: #000 url('https://i.ibb.co/jP9DrNSH/f8fb90452d47c229d2dbaaabaa0aa764.gif') center/cover no-repeat fixed;
+      background: #000;
       color: #fff;
       line-height: 1.6;
       overflow-x: hidden;
       min-height: 100vh;
+      position: relative;
     }
-    
-    nav {
-      background: rgba(0,0,0,0.8);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      padding: 12px 0;
+
+    #starfield {
       position: fixed;
       top: 0;
-      width: 100%;
-      z-index: 100;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    
-    .nav-inner {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-    }
-    
-    .nav-brand img {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-    }
-    
-    .nav-title {
-      font-weight: 800;
-      font-size: 14px;
-      color: #fff;
-      letter-spacing: 1px;
-    }
-    
-    .nav-links {
-      display: flex;
-      gap: 15px;
-      align-items: center;
-    }
-    
-    .nav-link {
-      color: #aaa;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: color 0.3s;
-      background: none;
-      border: none;
-      font-family: inherit;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    
-    .nav-link:hover {
-      color: #fff;
-    }
-    
-    .nav-cta {
-      background: #fff;
-      color: #000;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    
-    .nav-cta:hover {
-      background: #ddd;
-      transform: translateY(-1px);
-    }
-    
-    .scroller {
+      left: 0;
+      width: 100vw;
       height: 100vh;
-      overflow-y: scroll;
-      scroll-snap-type: y mandatory;
-      scroll-behavior: smooth;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .content {
       position: relative;
       z-index: 1;
     }
-    
-    .scroller::-webkit-scrollbar {
-      width: 0;
-      height: 0;
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 14px 0;
     }
-    
-    .section {
+
+    .nav-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .nav-brand img {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .nav-brand span {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #888;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+
+    .nav-links a:hover { color: #fff; }
+
+    .nav-invite {
+      background: #fff;
+      color: #000 !important;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-weight: 600 !important;
+      font-size: 0.8rem !important;
+      transition: all 0.2s;
+    }
+
+    .nav-invite:hover {
+      background: #ddd;
+      transform: translateY(-1px);
+    }
+
+    .hero {
       min-height: 100vh;
-      scroll-snap-align: start;
-      scroll-snap-stop: always;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
-      padding: 80px 20px 40px;
-      background: transparent;
-    }
-    
-    .section-content {
-      max-width: 1000px;
-      width: 100%;
       text-align: center;
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-      background: rgba(0,0,0,0.6);
-      border-radius: 20px;
-      padding: 30px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.1);
+      padding: 120px 24px 60px;
     }
-    
-    .section-content.visible {
-      opacity: 1;
-      transform: translateY(0);
+
+    .hero-content {
+      max-width: 700px;
     }
-    
-    .hero {
-      flex-direction: column;
-    }
-    
-    .hero-logo {
-      width: 120px;
-      height: 120px;
+
+    .hero-bot-logo {
+      width: 130px;
+      height: 130px;
       border-radius: 50%;
-      margin-bottom: 20px;
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 60px rgba(255, 255, 255, 0.08), 0 0 100px rgba(140, 180, 255, 0.1);
+      margin-bottom: 28px;
       display: block;
-      border: 2px solid rgba(255,255,255,0.3);
-      box-shadow: 0 0 40px rgba(0, 255, 255, 0.3);
-      animation: float 4s ease-in-out infinite;
+      margin-left: auto;
+      margin-right: auto;
+      animation: float 5s ease-in-out infinite;
     }
-    
+
     @keyframes float {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
     }
-    
-    .hero-greeting {
-      font-size: 0.9rem;
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 0.75rem;
       color: #aaa;
-      margin-bottom: 8px;
-      font-weight: 600;
-      letter-spacing: 3px;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
+      margin-bottom: 20px;
+      font-family: 'JetBrains Mono', monospace;
     }
-    
-    .hero-name {
-      font-size: 3.5rem;
-      font-weight: 900;
+
+    .hero-tag .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 10px #4ade80;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 4.5rem;
+      font-weight: 700;
       letter-spacing: -2px;
-      margin-bottom: 10px;
-      background: linear-gradient(135deg, #fff, #00ffff);
+      line-height: 1;
+      margin-bottom: 20px;
+      background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    
-    .hero-prefix {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.2rem;
-      color: #00ffff;
-      margin-bottom: 25px;
-      text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-    }
-    
-    .hero-desc {
-      font-size: 1rem;
-      color: #ccc;
-      line-height: 1.8;
-      margin-bottom: 30px;
-      font-weight: 300;
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: #888;
       max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
+      margin: 0 auto 40px;
+      line-height: 1.7;
     }
-    
+
     .hero-buttons {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       justify-content: center;
       flex-wrap: wrap;
     }
-    
+
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 10px 20px;
-      border-radius: 25px;
-      font-weight: 700;
-      font-size: 0.85rem;
+      gap: 10px;
+      padding: 13px 26px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.9rem;
       text-decoration: none;
       cursor: pointer;
-      transition: all 0.3s;
-      border: none;
+      transition: all 0.25s;
+      border: 1px solid transparent;
+      font-family: 'Inter', sans-serif;
     }
-    
+
     .btn-primary {
       background: #fff;
       color: #000;
     }
-    
+
     .btn-primary:hover {
+      background: #ddd;
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(255,255,255,0.3);
+      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.15);
     }
-    
+
     .btn-outline {
-      background: transparent;
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(255, 255, 255, 0.15);
       color: #fff;
-      border: 1px solid rgba(255,255,255,0.3);
     }
-    
+
     .btn-outline:hover {
-      border-color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.3);
       transform: translateY(-2px);
     }
-    
-    .scroll-indicator {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 0.7rem;
-      color: #aaa;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      animation: bounce 2s infinite;
+
+    .section {
+      padding: 100px 24px;
+      position: relative;
     }
-    
-    @keyframes bounce {
-      0%, 100% { transform: translate(-50%, 0); }
-      50% { transform: translate(-50%, 10px); }
+
+    .section-inner {
+      max-width: 900px;
+      margin: 0 auto;
     }
-    
+
     .section-header {
-      font-size: 1.5rem;
-      color: #fff;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 20px;
-      font-weight: 800;
       text-align: center;
+      margin-bottom: 60px;
     }
-    
-    .commands-wrapper {
-      background: rgba(0,0,0,0.3);
-      border-radius: 16px;
-      padding: 15px;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    
-    .commands-toolbar {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 15px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    
-    .search-input {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 25px;
-      padding: 8px 16px;
-      color: #fff;
-      font-size: 0.85rem;
-      font-family: 'Inter', sans-serif;
-      outline: none;
-      width: 100%;
-      max-width: 250px;
-    }
-    
-    .search-input:focus {
-      border-color: #fff;
-    }
-    
-    .search-input::placeholder {
-      color: #888;
-    }
-    
-    .cat-btn {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-      padding: 6px 12px;
-      color: #aaa;
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
-      font-weight: 600;
-      cursor: pointer;
+      color: #666;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+    }
+
+    .section-desc {
+      color: #888;
+      max-width: 500px;
+      margin: 0 auto;
+      font-size: 0.95rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 26px;
       transition: all 0.3s;
-      font-family: 'Inter', sans-serif;
+    }
+
+    .feature-card:hover {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.12);
+      transform: translateY(-3px);
+    }
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
       display: flex;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
+      margin-bottom: 16px;
     }
-    
+
+    .feature-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: #fff;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .feature-title {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
+
+    .feature-desc {
+      color: #888;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    .commands-toolbar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+
+    .search-box {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 30px;
+      padding: 12px 22px;
+      color: #fff;
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      width: 280px;
+      transition: border 0.2s;
+    }
+
+    .search-box:focus {
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .search-box::placeholder { color: #666; }
+
+    .cat-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 30px;
+      padding: 9px 16px;
+      color: #888;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
     .cat-btn:hover {
-      background: rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.06);
       color: #fff;
     }
-    
+
     .cat-btn.active {
       background: #fff;
       color: #000;
       border-color: #fff;
     }
-    
+
     .commands-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 8px;
-      max-height: 500px;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 10px;
+      max-height: 550px;
       overflow-y: auto;
-      padding: 10px;
-      max-width: 100%;
+      padding-right: 8px;
     }
-    
+
+    .commands-grid::-webkit-scrollbar { width: 6px; }
+    .commands-grid::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius: 10px; }
+    .commands-grid::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 10px; }
+
     .command-item {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 10px;
-      padding: 12px;
-      transition: all 0.3s;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 14px 16px;
+      transition: all 0.2s;
       cursor: pointer;
-      text-align: left;
-      width: 100%;
     }
-    
+
     .command-item:hover {
-      background: rgba(255,255,255,0.1);
-      border-color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.15);
       transform: translateY(-2px);
     }
-    
-    .cmd-name {
+
+    .command-name {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.85rem;
       font-weight: 600;
       color: #fff;
       margin-bottom: 4px;
     }
-    
-    .cmd-desc {
-      font-size: 0.75rem;
-      color: #aaa;
-      line-height: 1.4;
+
+    .command-desc {
+      color: #888;
+      font-size: 0.78rem;
+      line-height: 1.5;
     }
-    
-    .cmd-cat {
+
+    .command-cat {
       display: inline-block;
       font-size: 0.65rem;
-      background: rgba(255,255,255,0.1);
-      padding: 2px 6px;
-      border-radius: 8px;
-      color: #aaa;
-      margin-top: 4px;
+      color: #666;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-top: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
-    
-    .dev-section {
-      padding: 40px 0;
-    }
-    
+
     .dev-card {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-      padding: 25px;
-      max-width: 500px;
+      max-width: 480px;
       margin: 0 auto;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 32px;
       display: flex;
       align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      justify-content: center;
-      text-align: center;
+      gap: 22px;
+      transition: all 0.3s;
     }
-    
+
+    .dev-card:hover {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
     .dev-avatar {
-      width: 80px;
-      height: 80px;
+      width: 76px;
+      height: 76px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid rgba(255,255,255,0.2);
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      flex-shrink: 0;
     }
-    
-    .dev-info {
-      text-align: left;
-    }
-    
-    .dev-name {
-      font-size: 1.2rem;
+
+    .dev-info h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem;
       font-weight: 700;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
     }
-    
+
     .dev-status {
       display: flex;
       align-items: center;
       gap: 8px;
       font-size: 0.85rem;
-      color: #aaa;
+      color: #888;
+      margin-bottom: 12px;
     }
-    
+
     .status-dot {
-      width: 10px;
-      height: 10px;
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
+      background: #747f8d;
     }
-    
+
     .status-dot.online { background: #3ba55d; box-shadow: 0 0 10px #3ba55d; }
     .status-dot.idle { background: #faa81a; box-shadow: 0 0 10px #faa81a; }
     .status-dot.dnd { background: #ed4245; box-shadow: 0 0 10px #ed4245; }
-    .status-dot.offline { background: #747f8d; }
-    
+
     .dev-links {
       display: flex;
-      gap: 12px;
-      margin-top: 10px;
+      gap: 14px;
     }
-    
+
     .dev-links a {
-      color: #aaa;
-      font-size: 1.2rem;
-      transition: color 0.2s;
+      color: #888;
+      font-size: 1.1rem;
+      transition: color 0.2s, transform 0.2s;
     }
-    
+
     .dev-links a:hover {
       color: #fff;
+      transform: translateY(-2px);
     }
-    
-    .faq-section {
-      padding: 40px 0;
-    }
-    
-    .faq-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 15px;
-      margin-top: 20px;
-    }
-    
-    .faq-item {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      padding: 20px;
-      text-align: left;
-    }
-    
-    .faq-q {
-      font-weight: 700;
-      font-size: 0.95rem;
-      margin-bottom: 8px;
-    }
-    
-    .faq-a {
-      color: #aaa;
-      font-size: 0.85rem;
-      line-height: 1.6;
-    }
-    
-    footer {
+
+    .cta-section {
+      padding: 80px 24px 120px;
       text-align: center;
-      padding: 20px;
+    }
+
+    .cta-box {
+      max-width: 700px;
+      margin: 0 auto;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 60px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(140, 180, 255, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-box h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      letter-spacing: -1px;
+      position: relative;
+    }
+
+    .cta-box p {
       color: #888;
-      font-size: 0.8rem;
+      margin-bottom: 32px;
+      position: relative;
+    }
+
+    .cta-box .btn {
+      position: relative;
+      font-size: 1rem;
+      padding: 15px 32px;
+    }
+
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 32px 24px;
+      text-align: center;
+      color: #666;
+      font-size: 0.85rem;
       position: relative;
       z-index: 1;
-      background: rgba(0,0,0,0.6);
     }
-    
+
+    footer a {
+      color: #999;
+      text-decoration: underline;
+    }
+
     @media (max-width: 768px) {
-      .hero-name {
-        font-size: 2.5rem;
-      }
-      
-      .commands-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .nav-links {
-        gap: 10px;
-      }
-      
-      .nav-link {
-        font-size: 12px;
-      }
-      
-      .nav-link span {
-        display: none;
-      }
-      
-      .nav-cta {
-        padding: 6px 12px;
-        font-size: 11px;
-      }
-      
-      .section-content {
-        padding: 20px;
-      }
-      
-      .dev-card {
-        flex-direction: column;
-      }
-      
-      .dev-info {
-        text-align: center;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .hero-desc {
-        font-size: 0.9rem;
-      }
-      
-      .commands-toolbar {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .search-input {
-        max-width: 100%;
-      }
+      .nav-links li:not(:last-child) { display: none; }
+      .hero h1 { font-size: 3rem; }
+      .hero-bot-logo { width: 100px; height: 100px; }
+      .section-title { font-size: 1.8rem; }
+      .dev-card { flex-direction: column; text-align: center; }
+      .dev-status { justify-content: center; }
+      .dev-links { justify-content: center; }
+      .commands-grid { grid-template-columns: 1fr; }
+      .cta-box { padding: 40px 24px; }
+      .cta-box h2 { font-size: 1.6rem; }
     }
   </style>
 </head>
 <body>
 
+  <canvas id="starfield"></canvas>
+
   <nav>
     <div class="nav-inner">
-      <div class="nav-brand">
-        <img src="https://i.ibb.co/k6549fr6/58a1666957b08e5cc67c0b3987c863fe.jpg" alt="Numinous">
-        <span class="nav-title">NUMINOUS</span>
-      </div>
-      <div class="nav-links">
-        <button class="nav-link" onclick="scrollToSection('commands')">
-          <i class="fas fa-list"></i>
-          <span>Commands</span>
-        </button>
-        <button class="nav-link" onclick="scrollToSection('dev')">
-          <i class="fas fa-user"></i>
-          <span>Developer</span>
-        </button>
-        <a href="https://discord.com/oauth2/authorize?client_id=1537532403558518876" target="_blank" class="nav-cta">
-          <i class="fas fa-plus"></i>
-          Invite
-        </a>
-      </div>
+      <a class="nav-brand" href="#">
+        <img src="https://i.ibb.co/fGHF9fhg/406be211e3d53f3a5fe51dd5ffb87b13.jpg" alt="Astria" />
+        <span>Astria</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#commands">Commands</a></li>
+        <li><a href="#dev">Developer</a></li>
+        <li><a href="https://discord.com/oauth2/authorize?client_id=1537532403558518876" target="_blank" class="nav-invite">Invite</a></li>
+      </ul>
     </div>
   </nav>
 
-  <div class="scroller" id="mainScroller">
-    <div class="section hero" id="section-hero">
-      <div class="section-content" data-animate>
-        <img src="https://i.ibb.co/k6549fr6/58a1666957b08e5cc67c0b3987c863fe.jpg" alt="Numinous" class="hero-logo" />
-        <div class="hero-greeting">meet</div>
-        <h1 class="hero-name">NUMINOUS</h1>
-        <div class="hero-prefix">$</div>
-        <div class="hero-desc">
-          The ultimate multi-purpose bot for Discord.
-          <br><br>
-          Economy, Games, Music, Moderation, and more.
+  <div class="content">
+
+    <section class="hero">
+      <div class="hero-content">
+        <img src="https://i.ibb.co/fGHF9fhg/406be211e3d53f3a5fe51dd5ffb87b13.jpg" alt="Astria" class="hero-bot-logo" />
+        <div class="hero-tag">
+          <span class="dot"></span>
+          Online · Multi-purpose Discord Bot
         </div>
+        <h1>Astria</h1>
+        <p class="hero-sub">A powerful multi-purpose bot with AI, moderation, economy, music, and everything your server needs.</p>
         <div class="hero-buttons">
           <a href="https://discord.com/oauth2/authorize?client_id=1537532403558518876" target="_blank" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Invite Bot
+            <i class="fas fa-plus"></i>
+            Add to Server
+          </a>
+          <a href="https://discord.gg/dnCU22E7Gy" target="_blank" class="btn btn-outline">
+            <i class="fab fa-discord"></i>
+            Support Server
           </a>
         </div>
-        <div class="scroll-indicator">scroll to explore</div>
       </div>
-    </div>
+    </section>
 
-    <div class="section" id="section-commands">
-      <div class="section-content" data-animate>
-        <div class="section-header">Commands</div>
-        <div class="commands-wrapper">
-          <div class="commands-toolbar">
-            <input type="text" class="search-input" id="cmdSearch" placeholder="Search commands..." />
-            <button class="cat-btn active" data-cat="all">
-              <i class="fas fa-th"></i> All
-            </button>
-            <button class="cat-btn" data-cat="economy">
-              <i class="fas fa-coins"></i> Economy
-            </button>
-            <button class="cat-btn" data-cat="jobs">
-              <i class="fas fa-briefcase"></i> Jobs
-            </button>
-            <button class="cat-btn" data-cat="games">
-              <i class="fas fa-gamepad"></i> Games
-            </button>
-            <button class="cat-btn" data-cat="rewards">
-              <i class="fas fa-gift"></i> Rewards
-            </button>
-            <button class="cat-btn" data-cat="shop">
-              <i class="fas fa-store"></i> Shop
-            </button>
-            <button class="cat-btn" data-cat="advanced">
-              <i class="fas fa-chart-line"></i> Advanced
-            </button>
-            <button class="cat-btn" data-cat="music">
-              <i class="fas fa-music"></i> Music
-            </button>
-            <button class="cat-btn" data-cat="mod">
-              <i class="fas fa-shield-halved"></i> Moderation
-            </button>
-            <button class="cat-btn" data-cat="info">
-              <i class="fas fa-info-circle"></i> Info
-            </button>
-            <button class="cat-btn" data-cat="other">
-              <i class="fas fa-ellipsis-h"></i> Other
-            </button>
+    <section class="section" id="features">
+      <div class="section-inner">
+        <div class="section-header">
+          <div class="section-label">Features</div>
+          <h2 class="section-title">What Astria does</h2>
+          <p class="section-desc">Everything you need, in one bot.</p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2a8 8 0 00-8 8c0 5 4 9 8 9s8-4 8-9a8 8 0 00-8-8z"/><path d="M9 10h.01M15 10h.01"/><path d="M9.5 14.5a3.5 3.5 0 005 0"/></svg>
+            </div>
+            <div class="feature-title">AI Assistant</div>
+            <div class="feature-desc">Powered by Gemini with three personality modes — Femboy, Rude, and Direct.</div>
           </div>
-          <div class="commands-grid" id="commandsGrid"></div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+            </div>
+            <div class="feature-title">Moderation</div>
+            <div class="feature-desc">Full suite of mod tools — ban, kick, timeout, purge, lock, and more.</div>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            </div>
+            <div class="feature-title">Setup Automation</div>
+            <div class="feature-desc">Welcome messages, reaction roles, verification gates, and scheduled pings.</div>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg>
+            </div>
+            <div class="feature-title">Dev Tools</div>
+            <div class="feature-desc">Luau obfuscation, site scraping, GitHub export, and JS deobfuscation.</div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="section" id="section-dev">
-      <div class="section-content" data-animate>
-        <div class="section-header">Developer</div>
+    <section class="section" id="commands">
+      <div class="section-inner">
+        <div class="section-header">
+          <div class="section-label">Commands</div>
+          <h2 class="section-title">All commands</h2>
+          <p class="section-desc">Search and filter by category.</p>
+        </div>
+
+        <div class="commands-toolbar">
+          <input type="text" class="search-box" id="cmdSearch" placeholder="Search commands..." />
+          <button class="cat-btn active" data-cat="all">All</button>
+          <button class="cat-btn" data-cat="ai">AI</button>
+          <button class="cat-btn" data-cat="mod">Moderation</button>
+          <button class="cat-btn" data-cat="setup">Setup</button>
+          <button class="cat-btn" data-cat="utility">Utility</button>
+          <button class="cat-btn" data-cat="tools">Tools</button>
+        </div>
+
+        <div class="commands-grid" id="commandsGrid"></div>
+      </div>
+    </section>
+
+    <section class="section" id="dev">
+      <div class="section-inner">
+        <div class="section-header">
+          <div class="section-label">Developer</div>
+          <h2 class="section-title">Built by Nyx</h2>
+        </div>
         <div class="dev-card" id="devCard">
-          <img src="" alt="Deathy" class="dev-avatar" id="devAvatar" />
+          <img src="https://i.ibb.co/67mzvFbJ/4b7f9782977aea6e8a59dc9d6dae0317.gif" alt="Nyx" class="dev-avatar" id="devAvatar" />
           <div class="dev-info">
-            <div class="dev-name" id="devName">Deathy</div>
+            <h3 id="devName">Nyx</h3>
             <div class="dev-status">
               <span class="status-dot" id="statusDot"></span>
               <span id="devStatusText">Loading...</span>
             </div>
             <div class="dev-links">
-              <a href="https://dontcare-dev.github.io/Deathy.2v.dev/" target="_blank"><i class="fas fa-globe"></i></a>
-              <a href="https://github.com/dontcare-dev" target="_blank"><i class="fab fa-github"></i></a>
-              <a href="https://www.instagram.com/deathyyyyyyyyyy" target="_blank"><i class="fab fa-instagram"></i></a>
-              <a href="#" id="devDiscordLink"><i class="fab fa-discord"></i></a>
+              <a href="https://github.com/dontcare-dev" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+              <a href="https://dontcare-dev.github.io/Deathy.2v.dev/" target="_blank" title="Portfolio"><i class="fas fa-globe"></i></a>
+              <a href="#" id="devDiscordLink" title="Discord"><i class="fab fa-discord"></i></a>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="section" id="section-faq">
-      <div class="section-content" data-animate>
-        <div class="section-header">FAQ</div>
-        <div class="faq-grid">
-          <div class="faq-item">
-            <div class="faq-q">How do I invite Numinous?</div>
-            <div class="faq-a">Click the "Invite Bot" button at the top of the page or use the invite link in the hero section.</div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q">What prefix does Numinous use?</div>
-            <div class="faq-a">Numinous uses the `$` prefix for all text commands. Some commands are also available as slash commands.</div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q">Is Numinous free?</div>
-            <div class="faq-a">Yes, Numinous is completely free to use. There are no premium tiers or paywalls.</div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q">How do I report a bug?</div>
-            <div class="faq-a">You can report bugs by joining the support server and opening a ticket, or by contacting the developer directly on Discord.</div>
-          </div>
-        </div>
+    <section class="cta-section">
+      <div class="cta-box">
+        <h2>Ready to add Astria?</h2>
+        <p>Bring AI, moderation, setup automation, and dev tools to your server in one click.</p>
+        <a href="https://discord.com/oauth2/authorize?client_id=1537532403558518876" target="_blank" class="btn btn-primary">
+          <i class="fas fa-plus"></i>
+          Invite Astria
+        </a>
       </div>
-    </div>
+    </section>
+
   </div>
 
   <footer>
-    <p>© 2026 Numinous · Made by <a href="https://dontcare-dev.github.io/Deathy.2v.dev/" target="_blank" style="color:#aaa;text-decoration:underline;">Deathy</a></p>
+    <p>© 2026 Astria · Made by <a href="https://dontcare-dev.github.io/Deathy.2v.dev/" target="_blank">Nyx</a> · <a href="https://discord.gg/dnCU22E7Gy" target="_blank">Support Server</a></p>
   </footer>
 
   <script>
-    const commands = [
-      { name: '$balance', desc: 'Check your current balance', cat: 'economy' },
-      { name: '$bal', desc: 'Alias for balance', cat: 'economy' },
-      { name: '$wallet', desc: 'Alias for balance', cat: 'economy' },
-      { name: '$cash', desc: 'Alias for balance', cat: 'economy' },
-      { name: '$economy', desc: 'Alias for balance', cat: 'economy' },
-      { name: '$bank', desc: 'Check bank balance', cat: 'economy' },
-      { name: '$deposit', desc: 'Deposit coins to bank', cat: 'economy' },
-      { name: '$withdraw', desc: 'Withdraw coins from bank', cat: 'economy' },
-      { name: '$pay', desc: 'Pay coins to user', cat: 'economy' },
-      { name: '$give', desc: 'Alias for pay', cat: 'economy' },
-      { name: '$transfer', desc: 'Alias for pay', cat: 'economy' },
-      { name: '$networth', desc: 'Show total wealth', cat: 'economy' },
-      { name: '$wealth', desc: 'Alias for networth', cat: 'economy' },
-      { name: '$leaderboard', desc: 'Top 10 richest', cat: 'economy' },
-      { name: '$richest', desc: 'Alias for leaderboard', cat: 'economy' },
-      { name: '$rank', desc: 'Show your rank', cat: 'economy' },
-      { name: '$profile', desc: 'Show full profile', cat: 'economy' },
-      { name: '$stats', desc: 'Show economy stats', cat: 'economy' },
-      { name: '$transactions', desc: 'Show transactions', cat: 'economy' },
-      { name: '$history', desc: 'Alias for transactions', cat: 'economy' },
-      { name: '$portfolio', desc: 'Show stocks/crypto/items', cat: 'economy' },
-      { name: '$work', desc: 'Work for coins (1h cooldown)', cat: 'jobs' },
-      { name: '$job', desc: 'Show current job', cat: 'jobs' },
-      { name: '$jobs', desc: 'List all jobs', cat: 'jobs' },
-      { name: '$apply', desc: 'Apply for a job', cat: 'jobs' },
-      { name: '$quitjob', desc: 'Quit current job', cat: 'jobs' },
-      { name: '$career', desc: 'Alias for job', cat: 'jobs' },
-      { name: '$promote', desc: 'Get promoted', cat: 'jobs' },
-      { name: '$salary', desc: 'Show salary', cat: 'jobs' },
-      { name: '$shift', desc: 'Alias for work', cat: 'jobs' },
-      { name: '$overtime', desc: 'Work overtime (2h cooldown)', cat: 'jobs' },
-      { name: '$freelance', desc: 'Freelance work', cat: 'jobs' },
-      { name: '$gig', desc: 'Do a gig', cat: 'jobs' },
-      { name: '$business', desc: 'Show business', cat: 'jobs' },
-      { name: '$invest', desc: 'Invest coins', cat: 'jobs' },
-      { name: '$sidehustle', desc: 'Alias for freelance', cat: 'jobs' },
-      { name: '$profession', desc: 'Alias for job', cat: 'jobs' },
-      { name: '$skills', desc: 'Show skills', cat: 'jobs' },
-      { name: '$train', desc: 'Train a skill', cat: 'jobs' },
-      { name: '$retire', desc: 'Retire from job', cat: 'jobs' },
-      { name: '$paycheck', desc: 'Alias for work', cat: 'jobs' },
-      { name: '$coinflip', desc: 'Bet on coin flip', cat: 'games' },
-      { name: '$dice', desc: 'Guess dice roll', cat: 'games' },
-      { name: '$slots', desc: 'Play slots', cat: 'games' },
-      { name: '$blackjack', desc: 'Play blackjack', cat: 'games' },
-      { name: '$roulette', desc: 'Play roulette', cat: 'games' },
-      { name: '$higherlower', desc: 'Guess higher/lower', cat: 'games' },
-      { name: '$guess', desc: 'Guess a number', cat: 'games' },
-      { name: '$duel', desc: 'Duel another user', cat: 'games' },
-      { name: '$rps', desc: 'Rock Paper Scissors', cat: 'games' },
-      { name: '$scramble', desc: 'Unscramble word', cat: 'games' },
-      { name: '$trivia', desc: 'Answer trivia', cat: 'games' },
-      { name: '$mines', desc: 'Minesweeper', cat: 'games' },
-      { name: '$cups', desc: 'Find the ball', cat: 'games' },
-      { name: '$horse', desc: 'Horse racing', cat: 'games' },
-      { name: '$wheel', desc: 'Spin wheel', cat: 'games' },
-      { name: '$jackpot', desc: 'Try jackpot', cat: 'games' },
-      { name: '$scratch', desc: 'Scratch card', cat: 'games' },
-      { name: '$lottery', desc: 'Enter lottery', cat: 'games' },
-      { name: '$raffle', desc: 'Alias lottery', cat: 'games' },
-      { name: '$bet', desc: 'Alias coinflip', cat: 'games' },
-      { name: '$poker', desc: 'Play poker', cat: 'games' },
-      { name: '$bingo', desc: 'Play bingo', cat: 'games' },
-      { name: '$kings', desc: 'Draw card', cat: 'games' },
-      { name: '$cards', desc: 'Alias poker', cat: 'games' },
-      { name: '$slots2', desc: 'Alias slots', cat: 'games' },
-      { name: '$daily', desc: 'Claim daily (24h)', cat: 'rewards' },
-      { name: '$weekly', desc: 'Claim weekly (7d)', cat: 'rewards' },
-      { name: '$monthly', desc: 'Claim monthly (30d)', cat: 'rewards' },
-      { name: '$hourly', desc: 'Claim hourly (1h)', cat: 'rewards' },
-      { name: '$streak', desc: 'Show streak', cat: 'rewards' },
-      { name: '$claim', desc: 'Available claims', cat: 'rewards' },
-      { name: '$reward', desc: 'Alias claim', cat: 'rewards' },
-      { name: '$bonus', desc: 'Random bonus (1h)', cat: 'rewards' },
-      { name: '$quest', desc: 'Show quests', cat: 'rewards' },
-      { name: '$quests', desc: 'Alias quest', cat: 'rewards' },
-      { name: '$missions', desc: 'Alias quests', cat: 'rewards' },
-      { name: '$achievement', desc: 'Check achievement', cat: 'rewards' },
-      { name: '$achievements', desc: 'All achievements', cat: 'rewards' },
-      { name: '$milestones', desc: 'Show milestones', cat: 'rewards' },
-      { name: '$challenges', desc: 'Alias quest', cat: 'rewards' },
-      { name: '$redeem', desc: 'Redeem code', cat: 'rewards' },
-      { name: '$codes', desc: 'Show codes', cat: 'rewards' },
-      { name: '$gift', desc: 'Gift item', cat: 'rewards' },
-      { name: '$giftcard', desc: 'Gift coins', cat: 'rewards' },
-      { name: '$drop', desc: 'Random drop (6h)', cat: 'rewards' },
-      { name: '$shop', desc: 'Show shop', cat: 'shop' },
-      { name: '$buy', desc: 'Buy item', cat: 'shop' },
-      { name: '$sell', desc: 'Sell item', cat: 'shop' },
-      { name: '$item', desc: 'Item info', cat: 'shop' },
-      { name: '$items', desc: 'Alias shop', cat: 'shop' },
-      { name: '$inventory', desc: 'Show inventory', cat: 'shop' },
-      { name: '$use', desc: 'Use item', cat: 'shop' },
-      { name: '$equip', desc: 'Equip item', cat: 'shop' },
-      { name: '$unequip', desc: 'Unequip item', cat: 'shop' },
-      { name: '$trade', desc: 'Trade items', cat: 'shop' },
-      { name: '$market', desc: 'Market prices', cat: 'shop' },
-      { name: '$auction', desc: 'Auction item', cat: 'shop' },
-      { name: '$bid', desc: 'Place bid', cat: 'shop' },
-      { name: '$offers', desc: 'Show offers', cat: 'shop' },
-      { name: '$craft', desc: 'Craft item', cat: 'shop' },
-      { name: '$recipes', desc: 'Show recipes', cat: 'shop' },
-      { name: '$collect', desc: 'Collect item (4h)', cat: 'shop' },
-      { name: '$loot', desc: 'Loot item (3h)', cat: 'shop' },
-      { name: '$lootbox', desc: 'Alias drop', cat: 'shop' },
-      { name: '$open', desc: 'Alias use', cat: 'shop' },
-      { name: '$blacksmith', desc: 'Blacksmith info', cat: 'shop' },
-      { name: '$upgrade', desc: 'Upgrade item', cat: 'shop' },
-      { name: '$repair', desc: 'Repair item', cat: 'shop' },
-      { name: '$enchant', desc: 'Enchant item', cat: 'shop' },
-      { name: '$brew', desc: 'Brew potion', cat: 'shop' },
-      { name: '$bankinfo', desc: 'Bank info', cat: 'advanced' },
-      { name: '$interest', desc: 'Claim interest (24h)', cat: 'advanced' },
-      { name: '$loan', desc: 'Take loan', cat: 'advanced' },
-      { name: '$loans', desc: 'Show loans', cat: 'advanced' },
-      { name: '$repay', desc: 'Repay loan', cat: 'advanced' },
-      { name: '$credit', desc: 'Credit score', cat: 'advanced' },
-      { name: '$tax', desc: 'Pay taxes', cat: 'advanced' },
-      { name: '$bills', desc: 'Pay bills (7d)', cat: 'advanced' },
-      { name: '$rent', desc: 'Pay rent (7d)', cat: 'advanced' },
-      { name: '$insurance', desc: 'Buy insurance', cat: 'advanced' },
-      { name: '$stocks', desc: 'Show stocks', cat: 'advanced' },
-      { name: '$stock', desc: 'Stock info', cat: 'advanced' },
-      { name: '$buystock', desc: 'Buy stock', cat: 'advanced' },
-      { name: '$sellstock', desc: 'Sell stock', cat: 'advanced' },
-      { name: '$crypto', desc: 'Crypto investment', cat: 'advanced' },
-      { name: '$exchange', desc: 'Exchange coins', cat: 'advanced' },
-      { name: '$convert', desc: 'Alias exchange', cat: 'advanced' },
-      { name: '$marketplace', desc: 'Marketplace info', cat: 'advanced' },
-      { name: '$dividends', desc: 'Stock dividends (24h)', cat: 'advanced' },
-      { name: '$financials', desc: 'Financial summary', cat: 'advanced' },
-      { name: '$join', desc: 'Join voice channel', cat: 'music' },
-      { name: '$leave', desc: 'Leave voice channel', cat: 'music' },
-      { name: '$play', desc: 'Play a song', cat: 'music' },
-      { name: '$skip', desc: 'Skip current song', cat: 'music' },
-      { name: '$stop', desc: 'Stop music', cat: 'music' },
-      { name: '$nowplaying', desc: 'Show current song', cat: 'music' },
-      { name: '$queue', desc: 'Show queue', cat: 'music' },
-      { name: '$panel', desc: 'Show music control panel', cat: 'music' },
-      { name: '$purge', desc: 'Delete messages', cat: 'mod' },
-      { name: '$kick', desc: 'Kick a user', cat: 'mod' },
-      { name: '$ban', desc: 'Ban a user', cat: 'mod' },
-      { name: '$unban', desc: 'Unban a user', cat: 'mod' },
-      { name: '$timeout', desc: 'Timeout a user', cat: 'mod' },
-      { name: '$untimeout', desc: 'Remove timeout', cat: 'mod' },
-      { name: '$lock', desc: 'Lock channel', cat: 'mod' },
-      { name: '$unlock', desc: 'Unlock channel', cat: 'mod' },
-      { name: '$slowmode', desc: 'Set slowmode', cat: 'mod' },
-      { name: '$nick', desc: 'Change nickname', cat: 'mod' },
-      { name: '$role', desc: 'Add role', cat: 'mod' },
-      { name: '$removerole', desc: 'Remove role', cat: 'mod' },
-      { name: '$serverinfo', desc: 'Server info', cat: 'info' },
-      { name: '$userinfo', desc: 'User info', cat: 'info' },
-      { name: '$avatar', desc: 'Show avatar', cat: 'info' },
-      { name: '$ping', desc: 'Bot latency', cat: 'info' },
-      { name: '$botinfo', desc: 'Bot info', cat: 'info' },
-      { name: '$uptime', desc: 'Bot uptime', cat: 'info' },
-      { name: '$psr', desc: 'Partnership requirements', cat: 'info' },
-      { name: '$cca', desc: 'Content creation requirements', cat: 'info' },
-      { name: '$commands', desc: 'Show all commands', cat: 'info' },
-      { name: '$afk', desc: 'Set AFK status', cat: 'other' },
-      { name: '$bal', desc: 'Alias balance', cat: 'other' }
+    const COMMANDS = [
+      { name: 'ask', desc: 'Ask the AI a question. Requires access.', cat: 'ai' },
+      { name: 'personality', desc: 'Switch between Femboy, Rude, and Direct AI personalities.', cat: 'ai' },
+      { name: 'request', desc: 'Request AI access from the bot owner.', cat: 'ai' },
+
+      { name: 'purge', desc: 'Bulk delete messages in the current channel.', cat: 'mod' },
+      { name: 'kick', desc: 'Kick a member from the server.', cat: 'mod' },
+      { name: 'ban', desc: 'Ban a member from the server.', cat: 'mod' },
+      { name: 'unban', desc: 'Unban a user by their ID.', cat: 'mod' },
+      { name: 'timeout', desc: 'Timeout a member for a duration (10m, 1h, etc).', cat: 'mod' },
+      { name: 'untimeout', desc: 'Remove a timeout from a member.', cat: 'mod' },
+      { name: 'lock', desc: 'Lock a channel so members can\'t send messages.', cat: 'mod' },
+      { name: 'unlock', desc: 'Unlock a previously locked channel.', cat: 'mod' },
+      { name: 'slowmode', desc: 'Set slowmode delay on a channel.', cat: 'mod' },
+      { name: 'nick', desc: 'Change a member\'s nickname.', cat: 'mod' },
+      { name: 'role', desc: 'Add a role to a member.', cat: 'mod' },
+      { name: 'removerole', desc: 'Remove a role from a member.', cat: 'mod' },
+
+      { name: 'welcomeset', desc: 'Set the welcome channel and message template.', cat: 'setup' },
+      { name: 'reactionrole', desc: 'Bind an emoji reaction to a role on a message.', cat: 'setup' },
+      { name: 'wbn', desc: 'Lock all channels for unverified members.', cat: 'setup' },
+      { name: 'fischping', desc: 'Schedule a Saturday 8:10 PM IST ping.', cat: 'setup' },
+
+      { name: 'ping', desc: 'Check the bot\'s response latency.', cat: 'utility' },
+      { name: 'botinfo', desc: 'View information about the bot.', cat: 'utility' },
+      { name: 'uptime', desc: 'Check how long the bot has been running.', cat: 'utility' },
+      { name: 'afk', desc: 'Set your AFK status with an optional reason.', cat: 'utility' },
+
+      { name: 'luaobf', desc: 'Obfuscate Luau code with full multi-layer protection.', cat: 'tools' },
+      { name: 'get', desc: 'Scrape a website or GitHub repo. Export as HTML, JS, CSS, or ZIP.', cat: 'tools' }
     ];
 
-    let currentCat = 'all';
-    let currentSearch = '';
-
-    function renderCommands() {
+    function renderCommands(filter = 'all', search = '') {
       const grid = document.getElementById('commandsGrid');
       grid.innerHTML = '';
-      
-      let filtered = commands.filter(c => {
-        const matchCat = currentCat === 'all' || c.cat === currentCat;
-        const matchSearch = c.name.toLowerCase().includes(currentSearch) || c.desc.toLowerCase().includes(currentSearch);
-        return matchCat && matchSearch;
+
+      const filtered = COMMANDS.filter(c => {
+        const catMatch = filter === 'all' || c.cat === filter;
+        const searchMatch = c.name.toLowerCase().includes(search) || c.desc.toLowerCase().includes(search);
+        return catMatch && searchMatch;
       });
-      
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#666;padding:40px;font-size:0.9rem;">No commands found.</div>';
+        return;
+      }
+
       filtered.forEach(cmd => {
-        const div = document.createElement('div');
-        div.className = 'command-item';
-        div.innerHTML = `
-          <div class="cmd-name">${cmd.name}</div>
-          <div class="cmd-desc">${cmd.desc}</div>
-          <div class="cmd-cat">${cmd.cat}</div>
+        const item = document.createElement('div');
+        item.className = 'command-item';
+        item.innerHTML = `
+          <div class="command-name">/${cmd.name}</div>
+          <div class="command-desc">${cmd.desc}</div>
+          <div class="command-cat">${cmd.cat}</div>
         `;
-        grid.appendChild(div);
+        grid.appendChild(item);
       });
     }
-
-    document.getElementById('cmdSearch').addEventListener('input', (e) => {
-      currentSearch = e.target.value.toLowerCase();
-      renderCommands();
-    });
 
     document.querySelectorAll('.cat-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        currentCat = btn.dataset.cat;
-        renderCommands();
+        const search = document.getElementById('cmdSearch').value.toLowerCase();
+        renderCommands(btn.dataset.cat, search);
       });
     });
 
+    document.getElementById('cmdSearch').addEventListener('input', (e) => {
+      const activeCat = document.querySelector('.cat-btn.active').dataset.cat;
+      renderCommands(activeCat, e.target.value.toLowerCase());
+    });
+
     renderCommands();
-
-    function observeSections() {
-      const sections = document.querySelectorAll('.section-content[data-animate]');
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          } else {
-            entry.target.classList.remove('visible');
-          }
-        });
-      }, { threshold: 0.3 });
-      sections.forEach(section => observer.observe(section));
-    }
-
-    observeSections();
-
-    function scrollToSection(id) {
-      const section = document.getElementById('section-' + id);
-      if (section) {
-        section.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
 
     const USER_ID = '1418597263479144471';
     const LANYARD_URL = `https://api.lanyard.rest/v1/users/${USER_ID}`;
@@ -938,33 +820,141 @@
       try {
         const res = await fetch(LANYARD_URL);
         const data = await res.json();
-        if (data.success) updateUI(data.data);
-        else throw new Error('Invalid response');
+        if (data.success) {
+          const u = data.data.discord_user;
+          const avatarUrl = `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.png?size=256`;
+          document.getElementById('devAvatar').src = avatarUrl;
+          document.getElementById('devName').textContent = u.global_name || u.username;
+          const status = data.data.discord_status || 'offline';
+          const dot = document.getElementById('statusDot');
+          dot.className = 'status-dot ' + status;
+          const statusMap = { online: 'Online', idle: 'Idle', dnd: 'Do Not Disturb', offline: 'Offline' };
+          document.getElementById('devStatusText').textContent = statusMap[status] || 'Offline';
+          document.getElementById('devDiscordLink').href = `https://discord.com/users/${u.id}`;
+        }
       } catch (err) {
-        document.getElementById('devName').textContent = 'Deathy';
-        document.getElementById('devStatusText').textContent = 'Offline';
-        document.getElementById('statusDot').className = 'status-dot offline';
-        document.getElementById('devAvatar').src = 'https://cdn.discordapp.com/avatars/1418597263479144471/unknown.png?size=128';
+        console.log('Lanyard error:', err);
       }
-    }
-
-    function updateUI(data) {
-      const avatarUrl = `https://cdn.discordapp.com/avatars/${data.discord_user.id}/${data.discord_user.avatar}.png?size=128`;
-      document.getElementById('devAvatar').src = avatarUrl;
-      document.getElementById('devName').textContent = data.discord_user.global_name || data.discord_user.username;
-      const status = data.discord_status || 'offline';
-      const dot = document.getElementById('statusDot');
-      dot.className = `status-dot ${status}`;
-      const statusMap = { online: 'Online', idle: 'Idle', dnd: 'Do Not Disturb', offline: 'Offline' };
-      document.getElementById('devStatusText').textContent = statusMap[status] || 'Offline';
-      if (data.activities && data.activities.length) {
-        const custom = data.activities.find(a => a.type === 4);
-        if (custom) document.getElementById('devStatusText').textContent += ` · ${custom.state || ''}`;
-      }
-      document.getElementById('devDiscordLink').href = `https://discord.com/users/${data.discord_user.id}`;
     }
 
     fetchLanyard();
+
+    (function initStarfield() {
+      const canvas = document.getElementById('starfield');
+      const ctx = canvas.getContext('2d');
+      let width, height, stars = [], meteors = [];
+
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      const STAR_COUNT = Math.floor((width * height) / 8000);
+
+      function createStars() {
+        stars = [];
+        for (let i = 0; i < STAR_COUNT; i++) {
+          stars.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            r: Math.random() * 1.2 + 0.2,
+            baseOpacity: Math.random() * 0.6 + 0.2,
+            twinkleSpeed: Math.random() * 0.02 + 0.005,
+            phase: Math.random() * Math.PI * 2
+          });
+        }
+      }
+      createStars();
+
+      function createMeteor() {
+        const startX = Math.random() * width * 0.8 + width * 0.2;
+        const startY = Math.random() * height * 0.3;
+        const length = Math.random() * 120 + 80;
+        const angle = Math.PI * 0.75;
+        meteors.push({
+          x: startX,
+          y: startY,
+          vx: Math.cos(angle) * (Math.random() * 3 + 2),
+          vy: Math.sin(angle) * (Math.random() * 3 + 2),
+          length: length,
+          life: 1,
+          decay: Math.random() * 0.008 + 0.005
+        });
+      }
+
+      let lastMeteor = 0;
+      let time = 0;
+
+      function animate(timestamp) {
+        time = timestamp || 0;
+        ctx.clearRect(0, 0, width, height);
+
+        for (let i = 0; i < stars.length; i++) {
+          const s = stars[i];
+          const twinkle = Math.sin(time * s.twinkleSpeed + s.phase) * 0.5 + 0.5;
+          const opacity = s.baseOpacity * (0.4 + twinkle * 0.6);
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+          ctx.fill();
+
+          if (s.r > 1.0) {
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r * 3, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(180, 200, 255, ${opacity * 0.08})`;
+            ctx.fill();
+          }
+        }
+
+        if (timestamp - lastMeteor > 1800 + Math.random() * 2500) {
+          createMeteor();
+          lastMeteor = timestamp;
+        }
+
+        for (let i = meteors.length - 1; i >= 0; i--) {
+          const m = meteors[i];
+          const tailX = m.x - m.vx * (m.length / 20);
+          const tailY = m.y - m.vy * (m.length / 20);
+
+          const gradient = ctx.createLinearGradient(m.x, m.y, tailX, tailY);
+          gradient.addColorStop(0, `rgba(255, 255, 255, ${m.life})`);
+          gradient.addColorStop(0.3, `rgba(200, 220, 255, ${m.life * 0.6})`);
+          gradient.addColorStop(1, `rgba(150, 180, 255, 0)`);
+
+          ctx.beginPath();
+          ctx.strokeStyle = gradient;
+          ctx.lineWidth = 2;
+          ctx.lineCap = 'round';
+          ctx.moveTo(m.x, m.y);
+          ctx.lineTo(tailX, tailY);
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.arc(m.x, m.y, 2.2, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 255, 255, ${m.life})`;
+          ctx.fill();
+
+          ctx.beginPath();
+          ctx.arc(m.x, m.y, 6, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(200, 220, 255, ${m.life * 0.2})`;
+          ctx.fill();
+
+          m.x += m.vx;
+          m.y += m.vy;
+          m.life -= m.decay;
+
+          if (m.life <= 0 || m.x < -100 || m.y > height + 100) {
+            meteors.splice(i, 1);
+          }
+        }
+
+        requestAnimationFrame(animate);
+      }
+
+      requestAnimationFrame(animate);
+    })();
   </script>
 </body>
 </html>
